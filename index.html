@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-color: #a0d2eb;
+      --window-bg: #ffffff;
+      --border-light: #ffffff;
+      --border-dark: #b8c6e0;
+      --title-bar-active: #6a9dff;
+      --text-dark: #3a4b6c;
+      --text-light: #ffffff;
+      --accent-light-blue: #a0c4ff;
+    }
+
+    body,
+    html {
+      font-family: "VT323", monospace;
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- KODE CSS BARU (penggantinya) --- */
+
+    .pixel {
+      position: absolute;
+      background: white;
+      /* Dihapus border-radius agar bentuknya kotak (pixel) */
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Ukuran diperbesar & durasi dipercepat */
+    .pixel:nth-child(1) {
+      width: 6px;
+      height: 6px;
+      left: 10%;
+      animation-duration: 5s;
+      animation-delay: -3s;
+    }
+
+    .pixel:nth-child(2) {
+      width: 4px;
+      height: 4px;
+      left: 20%;
+      animation-duration: 4s;
+      animation-delay: -5s;
+    }
+
+    .pixel:nth-child(3) {
+      width: 8px;
+      height: 8px;
+      left: 35%;
+      animation-duration: 6s;
+      animation-delay: -1s;
+    }
+
+    .pixel:nth-child(4) {
+      width: 4px;
+      height: 4px;
+      left: 50%;
+      animation-duration: 3.5s;
+      animation-delay: -8s;
+    }
+
+    .pixel:nth-child(5) {
+      width: 16px;
+      height: 16px;
+      left: 65%;
+      animation-duration: 4.5s;
+      animation-delay: -2s;
+
+    }
+
+    .pixel:nth-child(6) {
+      width: 10px;
+      height: 10px;
+      left: 80%;
+      animation-duration: 5.5s;
+      animation-delay: -6s;
+    }
+
+    .pixel:nth-child(7) {
+      width: 4px;
+      height: 4px;
+      left: 90%;
+      animation-duration: 3s;
+      animation-delay: -4s;
+    }
+
+    .pixel:nth-child(8) {
+      width: 20px;
+      height: 20px;
+      left: 40%;
+      animation-duration: 3s;
+      animation-delay: -4s;
+    }
+
+    .pixel:nth-child(9) {
+      width: 10px;
+      height: 10px;
+      left: 30%;
+      animation-duration: 3s;
+      animation-delay: -4s;
+    }
+
+    #desktop {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .desktop-icon {
+      width: 120px;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      color: var(--text-dark);
+      float: left;
+    }
+
+    .desktop-icon img {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+    }
+
+    .desktop-icon p {
+      font-size: 20px;
+      margin-top: 5px;
+      word-wrap: break-word;
+    }
+
+    .desktop-icon:hover {
+      opacity: 0.7;
+    }
+
+    #profile-widget {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 280px;
+      background-color: #e6f0ff;
+      border: 2px solid;
+      border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+      padding: 2px;
+      z-index: 50;
+    }
+
+    .widget-title-bar {
+      background-color: var(--accent-light-blue);
+      color: var(--text-dark);
+      padding: 5px 10px;
+      font-size: 20px;
+      cursor: default;
+    }
+
+    .widget-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .widget-content img {
+      width: 250px;
+      object-fit: cover;
+      height: 250px;
+      border: 2px solid var(--border-dark);
+      background-color: var(--bg-color);
+      image-rendering: pixelated;
+      margin-bottom: 10px;
+    }
+
+    .widget-content p {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    .widget-content span {
+      font-size: 18px;
+      color: #6d6d6d;
+    }
+
+    .window {
+      display: none;
+      position: absolute;
+      width: 700px;
+      height: 450px;
+      background-color: #d1d5db;
+      border: 2px solid;
+      border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 2px;
+      flex-direction: column;
+    }
+
+    .title-bar {
+      background-color: var(--title-bar-active);
+      color: var(--text-light);
+      padding: 5px 10px;
+      font-size: 20px;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title-bar-buttons button {
+      background-color: #d1d5db;
+      border: 2px solid;
+      border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+      width: 22px;
+      height: 22px;
+      font-family: "VT323", monospace;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-dark);
+    }
+
+    .window-content {
+      padding: 20px;
+      flex-grow: 1;
+      background-color: var(--window-bg);
+      border: 2px solid;
+      border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+      margin: 2px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+
+    .window-content h3 {
+      font-size: 24px;
+      color: var(--text-dark);
+      border-bottom: 2px solid #e6f0ff;
+      padding-bottom: 5px;
+      margin-top: 0;
+    }
+
+    .window-content ul {
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+
+    #taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #d1d5db;
+      border-top: 2px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+      box-sizing: border-box;
+      z-index: 9999;
+    }
+
+    #start-button {
+      background-color: #d1d5db;
+      border: 2px solid;
+      border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+      padding: 5px 10px;
+      font-size: 20px;
+      font-family: "VT323", monospace;
+      display: flex;
+      align-items: center;
+    }
+
+    #clock {
+      margin-left: auto;
+      padding: 5px 10px;
+      border: 2px solid;
+      border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+      font-size: 18px;
+    }
+
+    /* --- KODE CSS UNTUK RESPONSIVE MOBILE --- */
+    @media (max-width: 768px) {
+
+      /* --- Penyesuaian Umum --- */
+      body,
+      html {
+        font-size: 16px;
+        /* Perkecil ukuran font dasar */
+        overflow: auto;
+        /* Izinkan scrolling di mobile */
+      }
+
+      /* --- Tata Letak Desktop & Ikon --- */
+      #desktop {
+        display: flex;
+        /* Gunakan flexbox agar ikon lebih mudah diatur */
+        flex-wrap: wrap;
+        /* Izinkan ikon turun ke baris baru jika tidak muat */
+        justify-content: flex-start;
+        /* Mulai ikon dari kiri */
+        gap: 15px;
+        /* Beri jarak antar ikon */
+        padding: 15px;
+        padding-bottom: 60px;
+        /* Beri ruang ekstra di bawah agar tidak tertutup taskbar */
+      }
+
+      .desktop-icon {
+        float: none;
+        /* Hapus float dari layout desktop */
+        width: 90px;
+        /* Sesuaikan lebar ikon */
+        padding: 5px;
+      }
+
+      .desktop-icon img {
+        width: 56px;
+        /* Perkecil gambar ikon */
+        height: 56px;
+      }
+
+      .desktop-icon p {
+        font-size: 16px;
+        /* Sesuaikan ukuran teks ikon */
+      }
+
+      /* --- Widget Profil --- */
+      #profile-widget {
+        position: relative;
+        /* Ubah dari absolute agar mengikuti alur dokumen */
+        top: auto;
+        right: auto;
+        width: 95%;
+        /* Lebar widget menyesuaikan layar */
+        margin: 0 auto 20px auto;
+        /* Posisikan di tengah dan beri jarak bawah */
+        order: -1;
+        /* Gunakan flex order agar widget tampil paling atas */
+      }
+
+      .widget-content img {
+        width: 120px;
+        /* Perkecil ukuran foto profil */
+        height: 150px;
+      }
+
+      /* --- Jendela (Window) --- */
+      .window {
+        /* Jadikan jendela tampil fullscreen di mobile saat dibuka */
+        width: 100vw;
+        height: 100vh;
+        top: 0 !important;
+        /* Paksa posisi ke atas (override style inline dari JS) */
+        left: 0 !important;
+        /* Paksa posisi ke kiri (override style inline dari JS) */
+        position: fixed;
+        /* Tetap di layar bahkan saat scroll */
+        box-sizing: border-box;
+        border: none;
+        /* Hapus border agar pas di layar */
+        z-index: 10000 !important;
+        /* Pastikan jendela selalu paling atas */
+      }
+
+      .window-content {
+        font-size: 18px;
+        /* Perbesar sedikit teks konten agar mudah dibaca */
+      }
+
+      /* --- Taskbar & Clock --- */
+      #taskbar {
+        height: 45px;
+        /* Sedikit perbesar taskbar agar mudah disentuh */
+      }
+
+      #start-button,
+      #clock {
+        font-size: 18px;
+        /* Perbesar font di taskbar */
+      }
+
+      /* --- Animasi Pixel (Opsional) --- */
+      /* Sembunyikan beberapa pixel untuk meningkatkan performa di mobile */
+      .pixel:nth-child(n + 5) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="pixel-fall-container">
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+    <div class="pixel"></div>
+  </div>
+
+  <div id="desktop">
+    <div class="desktop-icon" data-window="profil-window">
+      <img src="https://www.windows93.net/c/sys/skins/w93/documents.png" alt="Profil Icon" />
+      <p>Profil</p>
+    </div>
+    <div class="desktop-icon" data-window="proyek-window">
+      <img src="https://www.windows93.net/c/sys/skins/w93/documents.png" alt="Proyek Icon" />
+      <p>Proyek</p>
+    </div>
+    <div class="desktop-icon" data-window="pendidikan-window">
+      <img src="https://www.windows93.net/c/sys/skins/w93/documents.png" alt="Pendidikan Icon" />
+      <p>Pendidikan</p>
+    </div>
+    <div class="desktop-icon" data-window="kontak-window">
+      <img src="https://www.windows93.net/c/sys/skins/w93/documents.png" alt="Kontak Icon" />
+      <p>Kontak</p>
+    </div>
+
+    <div id="profile-widget">
+      <div class="widget-title-bar">Profil</div>
+      <div class="widget-content">
+        <img src="image/myfoto.jpg" alt="Foto Profil" />
+        <p>Imam Mustaqim</p>
+        <span>Accounting</span>
+      </div>
+    </div>
+
+    <div class="window" id="profil-window" style="top: 50px; left: 150px">
+      <div class="title-bar">
+        <span>Profil.txt</span>
+        <div class="title-bar-buttons">
+          <button class="close-button">x</button>
+        </div>
+      </div>
+      <div class="window-content">
+        <p style="font-size: 25px">Imam Mustaqim</p>
+        <p>Spesialisasi: Accounting Informatics</p>
+        <hr />
+        <p>
+          Mahasiswa akuntansi yang bersemangat dalam menerapkan teknologi
+          untuk efisiensi dan analisis data finansial. Saya percaya masa depan
+          profesi ini ada pada otomatisasi dan visualisasi yang cerdas.
+        </p>
+      </div>
+    </div>
+
+    <div class="window" id="proyek-window" style="top: 150px; left: 250px">
+      <div class="title-bar">
+        <span>C:\Proyek_Saya</span>
+        <div class="title-bar-buttons">
+          <button class="close-button">x</button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>Folder: Proyek</h3>
+        <ul>
+          <li>
+            <a href="https://snackademy.infinityfreeapp.com">[WEB APP]</a>
+            Snackademy
+          </li>
+          <!-- <li>[WEB APP] Dashboard Penjualan Interaktif</li> -->
+          <li>[WEB APP] Kalkulator Pajak PPh 21</li>
+          <li> <a href="https://journal.page.gd/">[WEB APP]</a>Sistem Jurnal Otomatis</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="window" id="pendidikan-window" style="top: 250px; left: 350px">
+      <div class="title-bar">
+        <span>Pendidikan.edu</span>
+        <div class="title-bar-buttons">
+          <button class="close-button">x</button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>Riwayat Pendidikan</h3>
+        <p>Universitas Sebelas Maret<br />S1 Akuntansi (2023 - Sekarang)</p>
+        <hr />
+        <p>IPK Saat Ini: Diatas Wapres Kita</p>
+        <p>Mata Kuliah Relevan:</p>
+        <ul>
+          <li>Analisis dan Desain Sistem</li>
+          <li>Sistem Informasi Akuntansi</li>
+          <!-- <li>Akuntansi Keuangan Lanjutan</li> -->
+          <li>Auditing</li>
+          <li>Perpajakan</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="window" id="kontak-window" style="top: 100px; left: 450px">
+      <div class="title-bar">
+        <span>Kirim Pesan</span>
+        <div class="title-bar-buttons">
+          <button class="close-button">x</button>
+        </div>
+      </div>
+      <div class="window-content">
+        <h3>Saluran Komunikasi</h3>
+        <p>Terbuka untuk diskusi mengenai peluang magang, dan proyek.</p>
+        <hr />
+        <p>
+          Instagram:
+          <a href="https://www.instagram.com/imam_mustaqimmm/"
+            style="color: blue; text-decoration: underline">[imam_mustaqimmm]</a>
+        </p>
+        <p>
+          LinkedIn:
+          <a href="#" target="_blank" style="color: blue; text-decoration: underline">[Imam Mustaqim]</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="taskbar">
+    <button id="start-button">► Start</button>
+    <div id="clock">11:09 AM</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const clockElement = document.getElementById("clock");
+      function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
+        clockElement.textContent = timeString;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      const desktop = document.getElementById("desktop");
+      const windows = document.querySelectorAll(".window");
+      const desktopIcons = document.querySelectorAll(".desktop-icon");
+      let highestZIndex = 100;
+
+      desktopIcons.forEach((icon) => {
+        icon.addEventListener("dblclick", function () {
+          const windowId = this.dataset.window;
+          const windowElement = document.getElementById(windowId);
+          if (windowElement) {
+            windowElement.style.display = "flex";
+            windowElement.style.zIndex = ++highestZIndex;
+          }
+        });
+      });
+
+      windows.forEach((windowElement) => {
+        const titleBar = windowElement.querySelector(".title-bar");
+        const closeButton = windowElement.querySelector(".close-button");
+
+        closeButton.addEventListener("click", function () {
+          windowElement.style.display = "none";
+        });
+        windowElement.addEventListener("mousedown", function () {
+          this.style.zIndex = ++highestZIndex;
+        });
+
+        let isDragging = false,
+          offsetX,
+          offsetY;
+        titleBar.addEventListener("mousedown", function (e) {
+          isDragging = true;
+          offsetX = e.clientX - windowElement.offsetLeft;
+          offsetY = e.clientY - windowElement.offsetTop;
+          e.preventDefault();
+        });
+        document.addEventListener("mousemove", function (e) {
+          if (isDragging) {
+            let newX = e.clientX - offsetX,
+              newY = e.clientY - offsetY;
+            const desktopRect = desktop.getBoundingClientRect();
+            if (newX < 0) newX = 0;
+            if (newY < 0) newY = 0;
+            if (newX + windowElement.offsetWidth > desktopRect.width)
+              newX = desktopRect.width - windowElement.offsetWidth;
+            if (newY + windowElement.offsetHeight > desktopRect.height - 40)
+              newY = desktopRect.height - windowElement.offsetHeight - 40;
+            windowElement.style.left = newX + "px";
+            windowElement.style.top = newY + "px";
+          }
+        });
+        document.addEventListener("mouseup", function () {
+          isDragging = false;
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imam Mustaqim - Portfolio OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #a0d2eb;
+            --window-bg: #ffffff;
+            --border-light: #ffffff;
+            --border-dark: #b8c6e0;
+            --title-bar-active: #6a9dff;
+            --text-dark: #3a4b6c;
+            --text-light: #ffffff;
+            --accent-peach: #ff8c61;
+        }
+
+        body,
+        html {
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+        }
+
+        /* === ANIMASI LATAR BELAKANG BARU (CSS MURNI) === */
+        .pixel-fall-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* Di antara background dan desktop */
+            pointer-events: none;
+            /* Agar tidak bisa di-klik */
+        }
+
+        /* --- KODE CSS BARU (penggantinya) --- */
+
+        .pixel {
+            position: absolute;
+            background: white;
+            /* Dihapus border-radius agar bentuknya kotak (pixel) */
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Ukuran diperbesar & durasi dipercepat */
+        .pixel:nth-child(1) {
+            width: 6px;
+            height: 6px;
+            left: 10%;
+            animation-duration: 5s;
+            animation-delay: -3s;
+        }
+
+        .pixel:nth-child(2) {
+            width: 4px;
+            height: 4px;
+            left: 20%;
+            animation-duration: 4s;
+            animation-delay: -5s;
+        }
+
+        .pixel:nth-child(3) {
+            width: 8px;
+            height: 8px;
+            left: 35%;
+            animation-duration: 6s;
+            animation-delay: -1s;
+        }
+
+        .pixel:nth-child(4) {
+            width: 4px;
+            height: 4px;
+            left: 50%;
+            animation-duration: 3.5s;
+            animation-delay: -8s;
+        }
+
+        .pixel:nth-child(5) {
+            width: 6px;
+            height: 6px;
+            left: 65%;
+            animation-duration: 4.5s;
+            animation-delay: -2s;
+        }
+
+        .pixel:nth-child(6) {
+            width: 8px;
+            height: 8px;
+            left: 80%;
+            animation-duration: 5.5s;
+            animation-delay: -6s;
+        }
+
+        .pixel:nth-child(7) {
+            width: 4px;
+            height: 4px;
+            left: 90%;
+            animation-duration: 3s;
+            animation-delay: -4s;
+        }
+
+
+        #desktop {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        .desktop-icon {
+            width: 120px;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            color: var(--text-dark);
+            float: left;
+        }
+
+        .desktop-icon img {
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+        }
+
+        .desktop-icon p {
+            font-size: 18px;
+            margin-top: 5px;
+            word-wrap: break-word;
+        }
+
+        .desktop-icon:hover {
+            opacity: 0.7;
+        }
+
+        #profile-widget {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 280px;
+            background-color: #e6f0ff;
+            border: 2px solid;
+            border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+            padding: 2px;
+            z-index: 50;
+        }
+
+        .widget-title-bar {
+            background-color: var(--accent-peach);
+            color: var(--text-light);
+            padding: 5px 10px;
+            font-size: 20px;
+            cursor: default;
+        }
+
+        .widget-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .widget-content img {
+            width: 128px;
+            height: 128px;
+            object-fit: cover;
+            border: 2px solid var(--border-dark);
+            background-color: var(--bg-color);
+            image-rendering: pixelated;
+            margin-bottom: 10px;
+        }
+
+        .widget-content p {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .widget-content span {
+            font-size: 18px;
+            color: #6d6d6d;
+        }
+
+
+        .window {
+            display: none;
+            position: absolute;
+            width: 700px;
+            height: 450px;
+            background-color: #d1d5db;
+            border: 2px solid;
+            border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 2px;
+            flex-direction: column;
+        }
+
+        .title-bar {
+            background-color: var(--title-bar-active);
+            color: var(--text-light);
+            padding: 5px 10px;
+            font-size: 20px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-bar-buttons button {
+            background-color: #d1d5db;
+            border: 2px solid;
+            border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+            width: 22px;
+            height: 22px;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .window-content {
+            padding: 20px;
+            flex-grow: 1;
+            background-color: var(--window-bg);
+            border: 2px solid;
+            border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+            margin: 2px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+
+        .window-content h3 {
+            font-size: 24px;
+            color: var(--text-dark);
+            border-bottom: 2px solid #e6f0ff;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        .window-content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+
+        #taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #d1d5db;
+            border-top: 2px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            box-sizing: border-box;
+            z-index: 9999;
+        }
+
+        #start-button {
+            background-color: #d1d5db;
+            border: 2px solid;
+            border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+            padding: 5px 10px;
+            font-size: 20px;
+            font-family: 'VT323', monospace;
+            display: flex;
+            align-items: center;
+        }
+
+        #clock {
+            margin-left: auto;
+            padding: 5px 10px;
+            border: 2px solid;
+            border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pixel-fall-container">
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+        <div class="pixel"></div>
+    </div>
+
+    <div id="desktop">
+        <div class="desktop-icon" data-window="profil-window">
+            <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBzdHlsZT0iaW1hZ2UtcmVuZGVyaW5nOiBwaXhlbGF0ZWQ7Ij48cGF0aCBkPSJNNiA0aDIwdjI1aC0yMHoiIGZpbGw9IiM2YTlkZmYiLz48cGF0aCBkPSJNNyA1aDE4djIzaC0xOHoiIGZpbGw9IiNlZWZvZjUiPjwvcGF0aCBkPSJNNyA2aDE4djIxaC0xOHoiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJtMTYgMTFjLTIgMC00IDItNCA0djJoOHYtMmMwLTItMi00LTQtNHptLTQgOGMwIDEgMSA0IDQgNHM0LTMgNC00aC04eiIgZmlsbD0iIzNhNGI2YyIvPjwvc3ZnPg=='
+                alt="Profil Icon">
+            <p>Profil</p>
+        </div>
+        <div class="desktop-icon" data-window="proyek-window">
+            <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBzdHlsZT0iaW1hZ2UtcmVuZGVyaW5nOiBwaXhlbGF0ZWQ7Ij48cGF0aCBkPSJtMy41IDYuNWgxMHYtM2gtOHYzeiI+PC9wYXRoPjxwYXRoIGQ9Im0yIDcuN3YxNWgyOHYtMTJoLTE0di0zaC0xNHoiIGZpbGw9IiM2YTlkZmYiLz48cGF0aCBkPSJtMTggMTNoMnYyaC0yem0zIDBoMnYyaC0yem0zIDBoMnYyaC0yem0zIDBoMnYyaC0yeiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg=='
+                alt="Proyek Icon">
+            <p>Proyek</p>
+        </div>
+        <div class="desktop-icon" data-window="pendidikan-window">
+            <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBzdHlsZT0iaW1hZ2UtcmVuZGVyaW5nOiBwaXhlbGF0ZWQ7Ij48cGF0aCBkPSJNMCAxMmgzMnYxMGgtMzJ6IiBmaWxsPSIjM2E0YjZjIi8+PHBhdGggZD0iTTEgMTNoMzB2OGgtMzB6IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTE2IDRoMWw4IDV2MmgtMTd2LTJsOS01eiIgZmlsbD0iIzNhNGI2YyIvPjxwYXRoIGQ9Ik0xNiA1aDJsNiA0di0yaC0ydi0xaC0ybC0xIDF6IiBmaWxsPSIjNjA3ZDg3Ii8+PHBhdGggZD0iTTUgMjFoMjJ2MmgtMjJ6IiBmaWxsPSIjYzhkMWVkIi8+PHBhdGggZD0iTTI0IDEyaDF2OGgtMXoiIGZpbGw9IiNmZmMzMDAiPjwvcGF0aD48L3N2Zz4='
+                alt="Pendidikan Icon">
+            <p>Pendidikan</p>
+        </div>
+        <div class="desktop-icon" data-window="kontak-window">
+            <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBzdHlsZT0iaW1hZ2UtcmVuZGVyaW5nOiBwaXhlbGF0ZWQ7Ij48cGF0aCBkPSJNMCA4aDMydjE2aC0zMnoiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMCA5aDMydjE0aC0zMnoiIGZpbGw9IiNlZWZvZjUiLz48cGF0aCBkPSJtMSAxMGw5IDdoOWwtOSA3aC0xOGwtOS03eiIgZmlsbD0iI2ZmOGM2MSI+PC9wYXRoPjxwYXRoIGQ9Im0xIDExbDE1IDEwaDE1bC0xNS0xMHoiIGZpbGw9IiM2YTlkZmYiPjwvcGF0aD48L3N2Zz4='
+                alt="Kontak Icon">
+            <p>Kontak</p>
+        </div>
+
+        <div id="profile-widget">
+            <div class="widget-title-bar">Profil</div>
+            <div class="widget-content">
+                <img src="https://api.dicebear.com/8.x/pixel-art/svg?seed=imam-mustaqim" alt="Foto Profil">
+                <p>Imam Mustaqim</p>
+                <span>Accounting Informatics</span>
+            </div>
+        </div>
+
+        <div class="window" id="profil-window" style="top: 50px; left: 150px;">
+            <div class="title-bar"><span>Profil.txt</span>
+                <div class="title-bar-buttons"><button class="close-button">x</button></div>
+            </div>
+            <div class="window-content">
+                <p style="font-size: 25px;">Imam Mustaqim</p>
+                <p>Spesialisasi: Accounting Informatics</p>
+                <hr>
+                <p>Mahasiswa akuntansi yang bersemangat dalam menerapkan teknologi untuk efisiensi dan analisis data
+                    finansial. Saya percaya masa depan profesi ini ada pada otomatisasi dan visualisasi yang cerdas.</p>
+            </div>
+        </div>
+
+        <div class="window" id="proyek-window" style="top: 150px; left: 250px;">
+            <div class="title-bar"><span>C:\Proyek_Saya</span>
+                <div class="title-bar-buttons"><button class="close-button">x</button></div>
+            </div>
+            <div class="window-content">
+                <h3>Folder: Proyek</h3>
+                <ul>
+                    <li>[WEB APP] Dashboard Penjualan Interaktif</li>
+                    <li>[WEB APP] Kalkulator Pajak PPh 21</li>
+                    <li>[ANALISIS] Evaluasi Kesehatan Finansial PT. XYZ</li>
+                    <li>[KONSEP] Sistem Jurnal Otomatis</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="window" id="pendidikan-window" style="top: 250px; left: 350px;">
+            <div class="title-bar"><span>Pendidikan.edu</span>
+                <div class="title-bar-buttons"><button class="close-button">x</button></div>
+            </div>
+            <div class="window-content">
+                <h3>Riwayat Pendidikan</h3>
+                <p>Universitas [Nama Universitas Anda]<br>S1 Akuntansi (2021 - Sekarang)</p>
+                <hr>
+                <p>IPK Saat Ini: [IPK Anda]</p>
+                <p>Mata Kuliah Relevan:</p>
+                <ul>
+                    <li>Sistem Informasi Akuntansi</li>
+                    <li>Akuntansi Keuangan Lanjutan</li>
+                    <li>Auditing</li>
+                    <li>Perpajakan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="window" id="kontak-window" style="top: 100px; left: 450px;">
+            <div class="title-bar"><span>Kirim Pesan</span>
+                <div class="title-bar-buttons"><button class="close-button">x</button></div>
+            </div>
+            <div class="window-content">
+                <h3>Saluran Komunikasi</h3>
+                <p>Terbuka untuk diskusi mengenai peluang magang, proyek, atau kolaborasi.</p>
+                <hr>
+                <p>Email: <a href="mailto:email@anda.com" style="color: blue; text-decoration: underline;">[Alamat Email
+                        Anda]</a></p>
+                <p>LinkedIn: <a href="#" target="_blank" style="color: blue; text-decoration: underline;">[Profil
+                        LinkedIn Anda]</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="taskbar">
+        <button id="start-button">► Start</button>
+        <div id="clock">11:43 AM</div>
+    </div>
+
+    <script>
+        // SCRIPT UNTUK FUNGSI JENDELA (TIDAK PERLU DIUBAH)
+        document.addEventListener('DOMContentLoaded', function () {
+            const clockElement = document.getElementById('clock');
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                clockElement.textContent = timeString;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            const desktop = document.getElementById('desktop');
+            const windows = document.querySelectorAll('.window');
+            const desktopIcons = document.querySelectorAll('.desktop-icon');
+            let highestZIndex = 100;
+
+            desktopIcons.forEach(icon => {
+                icon.addEventListener('dblclick', function () {
+                    const windowId = this.dataset.window;
+                    const windowElement = document.getElementById(windowId);
+                    if (windowElement) {
+                        windowElement.style.display = 'flex';
+                        windowElement.style.zIndex = ++highestZIndex;
+                    }
+                });
+            });
+
+            windows.forEach(windowElement => {
+                const titleBar = windowElement.querySelector('.title-bar');
+                const closeButton = windowElement.querySelector('.close-button');
+
+                closeButton.addEventListener('click', function () { windowElement.style.display = 'none'; });
+                windowElement.addEventListener('mousedown', function () { this.style.zIndex = ++highestZIndex; });
+
+                let isDragging = false, offsetX, offsetY;
+                titleBar.addEventListener('mousedown', function (e) {
+                    isDragging = true;
+                    offsetX = e.clientX - windowElement.offsetLeft;
+                    offsetY = e.clientY - windowElement.offsetTop;
+                    e.preventDefault();
+                });
+                document.addEventListener('mousemove', function (e) {
+                    if (isDragging) {
+                        let newX = e.clientX - offsetX, newY = e.clientY - offsetY;
+                        const desktopRect = desktop.getBoundingClientRect();
+                        if (newX < 0) newX = 0; if (newY < 0) newY = 0;
+                        if (newX + windowElement.offsetWidth > desktopRect.width) newX = desktopRect.width - windowElement.offsetWidth;
+                        if (newY + windowElement.offsetHeight > desktopRect.height - 40) newY = desktopRect.height - windowElement.offsetHeight - 40;
+                        windowElement.style.left = newX + 'px';
+                        windowElement.style.top = newY + 'px';
+                    }
+                });
+                document.addEventListener('mouseup', function () { isDragging = false; });
+            });
+        });
+    </script>
+</body>
+
+</html> -->
